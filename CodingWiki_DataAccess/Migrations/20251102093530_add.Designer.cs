@@ -4,6 +4,7 @@ using CodingWiki_DataAccess.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CodingWiki_DataAccess.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20251102093530_add")]
+    partial class add
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -61,6 +64,9 @@ namespace CodingWiki_DataAccess.Migrations
                     b.Property<int>("BookDetails_Id")
                         .HasColumnType("int");
 
+                    b.Property<int?>("BookDetails_Id1")
+                        .HasColumnType("int");
+
                     b.Property<string>("ISBN")
                         .IsRequired()
                         .HasMaxLength(20)
@@ -75,8 +81,7 @@ namespace CodingWiki_DataAccess.Migrations
 
                     b.HasKey("BookId");
 
-                    b.HasIndex("BookDetails_Id")
-                        .IsUnique();
+                    b.HasIndex("BookDetails_Id1");
 
                     b.ToTable("Books");
 
@@ -204,17 +209,10 @@ namespace CodingWiki_DataAccess.Migrations
             modelBuilder.Entity("CodingWiki_Model.Models.Book", b =>
                 {
                     b.HasOne("CodingWiki_Model.Models.BookDetail", "BookDetail")
-                        .WithOne("Book")
-                        .HasForeignKey("CodingWiki_Model.Models.Book", "BookDetails_Id")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .WithMany()
+                        .HasForeignKey("BookDetails_Id1");
 
                     b.Navigation("BookDetail");
-                });
-
-            modelBuilder.Entity("CodingWiki_Model.Models.BookDetail", b =>
-                {
-                    b.Navigation("Book");
                 });
 #pragma warning restore 612, 618
         }

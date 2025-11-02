@@ -4,6 +4,7 @@ using CodingWiki_DataAccess.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CodingWiki_DataAccess.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20251102092659_addBookDetais")]
+    partial class addBookDetais
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -58,9 +61,6 @@ namespace CodingWiki_DataAccess.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("BookId"));
 
-                    b.Property<int>("BookDetails_Id")
-                        .HasColumnType("int");
-
                     b.Property<string>("ISBN")
                         .IsRequired()
                         .HasMaxLength(20)
@@ -75,16 +75,12 @@ namespace CodingWiki_DataAccess.Migrations
 
                     b.HasKey("BookId");
 
-                    b.HasIndex("BookDetails_Id")
-                        .IsUnique();
-
                     b.ToTable("Books");
 
                     b.HasData(
                         new
                         {
                             BookId = 1,
-                            BookDetails_Id = 0,
                             ISBN = "123-4567890123",
                             Price = 19.99m,
                             Title = "C# Basics"
@@ -92,7 +88,6 @@ namespace CodingWiki_DataAccess.Migrations
                         new
                         {
                             BookId = 2,
-                            BookDetails_Id = 0,
                             ISBN = "123-4567890124",
                             Price = 39.99m,
                             Title = "ASP.NET Core Guide"
@@ -100,7 +95,6 @@ namespace CodingWiki_DataAccess.Migrations
                         new
                         {
                             BookId = 3,
-                            BookDetails_Id = 0,
                             ISBN = "123-4567890123",
                             Price = 20.99m,
                             Title = "C# Basics3"
@@ -108,7 +102,6 @@ namespace CodingWiki_DataAccess.Migrations
                         new
                         {
                             BookId = 4,
-                            BookDetails_Id = 0,
                             ISBN = "123-4567890123",
                             Price = 29.99m,
                             Title = "C# Basics4"
@@ -116,7 +109,6 @@ namespace CodingWiki_DataAccess.Migrations
                         new
                         {
                             BookId = 5,
-                            BookDetails_Id = 0,
                             ISBN = "123-4567890123",
                             Price = 39.99m,
                             Title = "C# Basics5"
@@ -199,22 +191,6 @@ namespace CodingWiki_DataAccess.Migrations
                     b.HasKey("SubCategory_Id");
 
                     b.ToTable("SubCategories");
-                });
-
-            modelBuilder.Entity("CodingWiki_Model.Models.Book", b =>
-                {
-                    b.HasOne("CodingWiki_Model.Models.BookDetail", "BookDetail")
-                        .WithOne("Book")
-                        .HasForeignKey("CodingWiki_Model.Models.Book", "BookDetails_Id")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("BookDetail");
-                });
-
-            modelBuilder.Entity("CodingWiki_Model.Models.BookDetail", b =>
-                {
-                    b.Navigation("Book");
                 });
 #pragma warning restore 612, 618
         }

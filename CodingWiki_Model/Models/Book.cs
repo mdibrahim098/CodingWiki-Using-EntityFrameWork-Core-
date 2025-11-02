@@ -5,7 +5,7 @@ namespace CodingWiki_Model.Models
 {
     public class Book
     {
-        //[Key]
+        [Key]
         public int BookId { get; set; }
         public string Title { get; set; }
         [MaxLength(20)]
@@ -14,6 +14,7 @@ namespace CodingWiki_Model.Models
         public decimal Price { get; set; }
         [NotMapped]
         public string PriceRange { get; set; }
+        public BookDetail BookDetail { get; set; }
 
     }
 }
